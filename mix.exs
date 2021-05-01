@@ -33,6 +33,7 @@ defmodule William.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:pbkdf2_elixir, "~> 1.0"},
       {:phoenix, "~> 1.5.8"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
@@ -46,9 +47,10 @@ defmodule William.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:phoenix_live_view, "~> 0.15.4", override: true},
-      {:timex, "~> 3.6"},
-      {:faker, "~> 0.16.0"}
+      {:phoenix_live_view, "~> 0.15.4", override: true}, # Changed version
+      {:timex, "~> 3.6"}, # Added
+      {:faker, "~> 0.16.0"}, # Added
+      {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false} # Added for auth handling
     ]
   end
 
