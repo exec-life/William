@@ -6,6 +6,23 @@ defmodule William.Accounts do
   import Ecto.Query, warn: false
   alias William.Repo
   alias William.Accounts.{User, UserToken, UserNotifier}
+  alias WilliamWeb.UserAuth
+
+  def log_out_user(token) do
+    user = get_user_by_session_token(token)
+    # Delete all user tokens
+    Repo.delete_all(UserToken.user_and_contexts_query(user, :all))
+
+    # Broadcast to all liveviews to immediately disconnect the user
+    WilliamWeb.Endpoint.broadcast_from(
+      self(),
+      UserAuth.pubsub_topic(),
+      "logout_user",
+      %{
+        user: user
+      }
+    )
+  end
 
   ## Database getters
 

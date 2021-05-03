@@ -48,6 +48,22 @@ defmodule WilliamWeb do
         layout: {WilliamWeb.LayoutView, "live.html"}
 
       unquote(view_helpers())
+      # Added Start
+      import WilliamWeb.LiveHelpers
+
+      alias William.Accounts.User
+      @impl true
+      def handle_info(%{event: "logout_user", payload: %{user: %User{id: id}}}, socket) do
+        with %User{id: ^id} <- socket.assigns.current_user do
+          {:noreply,
+            socket
+            |> redirect(to: "/")
+            |> put_flash(:info, "Logged out successfully.")}
+        else
+          _any -> {:noreply, socket}
+        end
+      end
+      # Added END
     end
   end
 
